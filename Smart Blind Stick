@@ -1,0 +1,78 @@
+Constant trigger = 3; //Trigger pin of 1st Sensor
+constant echo = 2; //Echo pin of 1st Sensor
+constant Buzz = 13; //Echo pin of 1st Sensor
+constant Remote = A0; //Echo pin of 1st Sensor
+constant Light = A1; //Echo pin of 1st Sensor
+Long time taken;
+intdist;
+int Signal;
+intIntens;
+intsimilar_count;
+Void setup () {
+Serial. begin (9600);
+pin Mode (Buzz, OUTPUT);
+digitalWrite (Buzz, LOW);
+pin Mode (trigger, OUTPUT);
+pin Mode (echo, INPUT);
+}
+/*###Function to calculate distance###*/
+void calculate distance (int trigger, int echo)
+{
+digitalWrite (trigger, LOW);
+delay Microseconds (2);
+digitalWrite (trigger, HIGH);
+9
+delay Microseconds (10);
+digitalWrite (trigger, LOW);
+Time taken = pulse In(echo, HIGH);
+dist= time taken*0.034/2;
+if (dist>300)
+dist=300;
+}
+Void loop() { //infinite loopy
+calculate distance(trigger, echo);
+Signal = analog Read(Remote);
+Intens = analog Read(Light);
+//Check if Remote is pressed
+int temp = analog Read (Remote);
+similar count=0;
+while (Signal==temp)
+{
+Signal = analog Read (Remote);
+similar count++;
+}
+//If remote pressed
+if (similar count<100)
+{
+Serial. Print (similar count); Serial.println ("Remote Pressed");
+digitalWrite (Buzz, HIGH); delay (3000); digitalWrite (Buzz, LOW);
+}
+//If very dark
+if (Intens<200)
+10
+{
+Serial. Print(Intens); Serial.println("Bright Light");
+digitalWrite(Buzz,HIGH);delay(200);digitalWrite(Buzz,LOW);delay(200
+);
+DigitalWrite (Buzz, HIGH); delay (200);
+ DigitalWrite (Buzz, LOW); delay (200);
+delay (500);
+}
+//If very bright
+if (Intens>800)
+{
+Serial. Print(Intens); Serial.println("Low Light");
+digitalWrite(Buzz,HIGH);delay(500);digitalWrite(Buzz,LOW);delay(500
+);
+DigitalWrite (Buzz, HIGH); delay (500);
+ DigitalWrite (Buzz, LOW); delay (500);
+}
+if (dist<50)
+{
+Serial. Print(dist); Serial.println("Object Alert");
+for (int=dist; i>0; i--)
+delay(10);
+DigitalWrite (Buzz, LOW);
+for (int=dist; i>0; i--)
+delay (10);
+}
